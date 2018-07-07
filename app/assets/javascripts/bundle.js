@@ -99,7 +99,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.receiveOrg = exports.RECEIVE_ORG = undefined;
+exports.fetchOrg = exports.receiveOrg = exports.RECEIVE_ORG = undefined;
 
 var _org_api_util = __webpack_require__(/*! ../util/org_api_util */ "./frontend/util/org_api_util.js");
 
@@ -113,6 +113,14 @@ var receiveOrg = exports.receiveOrg = function receiveOrg(data) {
   return {
     type: RECEIVE_ORG,
     repos: data
+  };
+};
+
+var fetchOrg = exports.fetchOrg = function fetchOrg(org) {
+  return function (dispatch) {
+    return APIUtil.fetchOrg(org).then(function (org) {
+      return dispatch(receiveOrg(org));
+    });
   };
 };
 
@@ -242,14 +250,17 @@ var _store = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js
 
 var _store2 = _interopRequireDefault(_store);
 
-var _org_api_util = __webpack_require__(/*! ./util/org_api_util */ "./frontend/util/org_api_util.js");
+var _org_actions = __webpack_require__(/*! ./actions/org_actions */ "./frontend/actions/org_actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-window.fetchOrg = _org_api_util.fetchOrg;
+window.fetchOrg = _org_actions.fetchOrg;
+// import { fetchOrg } from './util/org_api_util';
+
 
 document.addEventListener('DOMContentLoaded', function () {
   var store = (0, _store2.default)();
+  window.store = store;
   _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), document.getElementById('root'));
 });
 

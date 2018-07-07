@@ -9,3 +9,11 @@ export const receiveOrg = (data) => {
     repos: data
   };
 };
+
+export const fetchOrg = (org) => {
+  return (dispatch) => {
+    return APIUtil.fetchOrg(org).then( org => {
+      return dispatch(receiveOrg(org));
+    });
+  };
+};
