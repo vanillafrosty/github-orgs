@@ -1,24 +1,9 @@
-# README
+# github-orgs
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Enter a github organization name, and watch the dashboard populate with relevant info.
 
-Things you may want to cover:
+## Setup
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Open directory in a terminal and run 'npm install'
+- After the above is successful, run 'rails s' to start a local server
+- Navigate to localhost:3000 in your browser and begin using the app
