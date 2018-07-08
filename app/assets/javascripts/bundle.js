@@ -282,7 +282,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _org_actions = __webpack_require__(/*! ../actions/org_actions */ "./frontend/actions/org_actions.js");
 
-var _selectors = __webpack_require__(/*! ./selectors */ "./frontend/reducers/selectors.js");
+// import { filterRepos } from './selectors';
 
 var reposReducer = function reposReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -328,39 +328,6 @@ var obj = {
 };
 
 var rootReducer = exports.rootReducer = (0, _redux.combineReducers)(obj);
-
-/***/ }),
-
-/***/ "./frontend/reducers/selectors.js":
-/*!****************************************!*\
-  !*** ./frontend/reducers/selectors.js ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-//receive array of objects and return array of objects with less keys
-var filterRepos = exports.filterRepos = function filterRepos(repos) {
-  var out = [];
-  var repo = void 0,
-      filteredRepo = void 0;
-  for (var i = 0; i < repos.length; i++) {
-    repo = repos[i];
-    filteredRepo = {
-      name: repo.name,
-      full_name: repo.full_name,
-      forks_count: repo.forks_count,
-      stargazers_count: repo.stargazers_count
-    };
-    out.push(filteredRepo);
-  }
-  return out;
-};
 
 /***/ }),
 
