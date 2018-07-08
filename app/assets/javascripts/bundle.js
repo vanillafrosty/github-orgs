@@ -252,11 +252,13 @@ var _store2 = _interopRequireDefault(_store);
 
 var _org_actions = __webpack_require__(/*! ./actions/org_actions */ "./frontend/actions/org_actions.js");
 
+var _auth_api_util = __webpack_require__(/*! ./util/auth_api_util */ "./frontend/util/auth_api_util.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-window.fetchRepos = _org_actions.fetchRepos;
 // import { fetchOrg } from './util/org_api_util';
-
+window.fetchRepos = _org_actions.fetchRepos;
+window.fetchToken = _auth_api_util.fetchToken;
 
 document.addEventListener('DOMContentLoaded', function () {
   var store = (0, _store2.default)();
@@ -370,6 +372,31 @@ var configureStore = function configureStore(preloadedState) {
 };
 
 exports.default = configureStore;
+
+/***/ }),
+
+/***/ "./frontend/util/auth_api_util.js":
+/*!****************************************!*\
+  !*** ./frontend/util/auth_api_util.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var fetchToken = exports.fetchToken = function fetchToken() {
+  return $.ajax({
+    method: 'GET',
+    url: "https://github.com/login/oauth/authorize",
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    }
+  });
+};
 
 /***/ }),
 
