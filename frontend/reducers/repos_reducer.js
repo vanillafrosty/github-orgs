@@ -4,7 +4,7 @@ import { filterRepos } from './selectors';
 const reposReducer = (state = {}, action) => {
   switch(action.type) {
     case RECEIVE_REPOS:
-      return filterRepos(action.repos);
+      return action.repos;
     default:
       return state;
   }

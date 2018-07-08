@@ -290,7 +290,7 @@ var reposReducer = function reposReducer() {
 
   switch (action.type) {
     case _org_actions.RECEIVE_REPOS:
-      return (0, _selectors.filterRepos)(action.repos);
+      return action.repos;
     default:
       return state;
   }
@@ -422,7 +422,8 @@ Object.defineProperty(exports, "__esModule", {
 var fetchRepos = exports.fetchRepos = function fetchRepos(org) {
   return $.ajax({
     method: 'GET',
-    url: 'https://api.github.com/orgs/' + org + '/repos'
+    url: "api/organizations",
+    data: { org: org }
   });
 };
 
