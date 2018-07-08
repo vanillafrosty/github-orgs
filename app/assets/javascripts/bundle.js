@@ -99,7 +99,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchOrg = exports.receiveOrg = exports.RECEIVE_ORG = undefined;
+exports.fetchRepos = exports.receiveRepos = exports.RECEIVE_REPOS = undefined;
 
 var _org_api_util = __webpack_require__(/*! ../util/org_api_util */ "./frontend/util/org_api_util.js");
 
@@ -107,19 +107,19 @@ var APIUtil = _interopRequireWildcard(_org_api_util);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var RECEIVE_ORG = exports.RECEIVE_ORG = "RECEIVE_ORG";
+var RECEIVE_REPOS = exports.RECEIVE_REPOS = "RECEIVE_REPOS";
 
-var receiveOrg = exports.receiveOrg = function receiveOrg(data) {
+var receiveRepos = exports.receiveRepos = function receiveRepos(data) {
   return {
-    type: RECEIVE_ORG,
+    type: RECEIVE_REPOS,
     repos: data
   };
 };
 
-var fetchOrg = exports.fetchOrg = function fetchOrg(org) {
+var fetchRepos = exports.fetchRepos = function fetchRepos(org) {
   return function (dispatch) {
-    return APIUtil.fetchOrg(org).then(function (org) {
-      return dispatch(receiveOrg(org));
+    return APIUtil.fetchRepos(org).then(function (repos) {
+      return dispatch(receiveRepos(repos));
     });
   };
 };
@@ -254,7 +254,7 @@ var _org_actions = __webpack_require__(/*! ./actions/org_actions */ "./frontend/
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-window.fetchOrg = _org_actions.fetchOrg;
+window.fetchRepos = _org_actions.fetchRepos;
 // import { fetchOrg } from './util/org_api_util';
 
 
@@ -266,10 +266,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
-/***/ "./frontend/reducers/org_reducer.js":
-/*!******************************************!*\
-  !*** ./frontend/reducers/org_reducer.js ***!
-  \******************************************/
+/***/ "./frontend/reducers/repos_reducer.js":
+/*!********************************************!*\
+  !*** ./frontend/reducers/repos_reducer.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -282,19 +282,21 @@ Object.defineProperty(exports, "__esModule", {
 
 var _org_actions = __webpack_require__(/*! ../actions/org_actions */ "./frontend/actions/org_actions.js");
 
-var orgReducer = function orgReducer() {
+var _selectors = __webpack_require__(/*! ./selectors */ "./frontend/reducers/selectors.js");
+
+var reposReducer = function reposReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments[1];
 
   switch (action.type) {
-    case _org_actions.RECEIVE_ORG:
-      return action.repos;
+    case _org_actions.RECEIVE_REPOS:
+      return (0, _selectors.filterRepos)(action.repos);
     default:
       return state;
   }
 };
 
-exports.default = orgReducer;
+exports.default = reposReducer;
 
 /***/ }),
 
@@ -315,17 +317,50 @@ exports.rootReducer = undefined;
 
 var _redux = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 
-var _org_reducer = __webpack_require__(/*! ./org_reducer */ "./frontend/reducers/org_reducer.js");
+var _repos_reducer = __webpack_require__(/*! ./repos_reducer */ "./frontend/reducers/repos_reducer.js");
 
-var _org_reducer2 = _interopRequireDefault(_org_reducer);
+var _repos_reducer2 = _interopRequireDefault(_repos_reducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var obj = {
-  org: _org_reducer2.default
+  repos: _repos_reducer2.default
 };
 
 var rootReducer = exports.rootReducer = (0, _redux.combineReducers)(obj);
+
+/***/ }),
+
+/***/ "./frontend/reducers/selectors.js":
+/*!****************************************!*\
+  !*** ./frontend/reducers/selectors.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//receive array of objects and return array of objects with less keys
+var filterRepos = exports.filterRepos = function filterRepos(repos) {
+  var out = [];
+  var repo = void 0,
+      filteredRepo = void 0;
+  for (var i = 0; i < repos.length; i++) {
+    repo = repos[i];
+    filteredRepo = {
+      name: repo.name,
+      full_name: repo.full_name,
+      forks_count: repo.forks_count,
+      stargazers_count: repo.stargazers_count
+    };
+    out.push(filteredRepo);
+  }
+  return out;
+};
 
 /***/ }),
 
@@ -384,7 +419,7 @@ exports.default = configureStore;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var fetchOrg = exports.fetchOrg = function fetchOrg(org) {
+var fetchRepos = exports.fetchRepos = function fetchRepos(org) {
   return $.ajax({
     method: 'GET',
     url: 'https://api.github.com/orgs/' + org + '/repos'

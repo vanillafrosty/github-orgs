@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import orgReducer from './org_reducer';
+import reposReducer from './repos_reducer';
 
 const obj = {
-  org: orgReducer
+  repos: reposReducer
 };
 
 export const rootReducer = combineReducers(obj);

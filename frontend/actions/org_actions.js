@@ -1,19 +1,19 @@
 import * as APIUtil from '../util/org_api_util';
 
-export const RECEIVE_ORG = "RECEIVE_ORG";
+export const RECEIVE_REPOS = "RECEIVE_REPOS";
 
 
-export const receiveOrg = (data) => {
+export const receiveRepos = (data) => {
   return {
-    type: RECEIVE_ORG,
+    type: RECEIVE_REPOS,
     repos: data
   };
 };
 
-export const fetchOrg = (org) => {
+export const fetchRepos = (org) => {
   return (dispatch) => {
-    return APIUtil.fetchOrg(org).then( org => {
-      return dispatch(receiveOrg(org));
+    return APIUtil.fetchRepos(org).then( repos => {
+      return dispatch(receiveRepos(repos));
     });
   };
 };
